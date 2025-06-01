@@ -1,0 +1,32 @@
+{
+  "peaks_nm": {
+    "B": 460,
+    "G": 550,
+    "R": 610
+  },
+  "poly_degree": 2,
+  "algo": "HistGradientBoosting",
+  "search_params": {
+    "hgb__max_depth": [
+      3,
+      null
+    ],
+    "hgb__learning_rate": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "hgb__l2_regularization": [
+      0.0,
+      0.01,
+      0.1
+    ]
+  },
+  "best_params": {
+    "hgb__max_depth": null,
+    "hgb__learning_rate": 0.2,
+    "hgb__l2_regularization": 0.0
+  },
+  "r2_val": 0.9029295885589037,
+  "mae_val": 7.045004481441594e-05
+}
