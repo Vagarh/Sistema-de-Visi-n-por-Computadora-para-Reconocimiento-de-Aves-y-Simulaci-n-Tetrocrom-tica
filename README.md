@@ -133,7 +133,7 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 ### 2. Comprensión de los Datos
 
 1. **Exploración de FeathersV1**  
-   - Verificar que las imágenes de plumas estén en formato TIFF y, tras remoción de fondo, continúen con 4 canales (RGBA o RGB+canal alfa).  
+   - Verificar que las imágenes de plumas estén en formato JPG y, tras remoción de fondo, continúen con 4 canales (RGBA o RGB+canal alfa).  
    - Validar nombres de archivo y estructura de carpetas para asegurar correspondencia con metadatos taxonómicos (si existieran).  
    - Calcular estadísticas básicas de píxeles (forma, rango de valores) para cada canal (R, G, B, Alfa).
 
@@ -151,7 +151,7 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 
 2. **Construcción del Tensor 4-Canal (RGB+UV)**  
    - **Predicción del canal UV proxy:**  
-     - Cargar el modelo de regresión entrenado previamente con datos espectrales.  
+     - Cargar el modelo de regresión entrenado previamente con datos espectrales de Birdcolorbase  
      - Por cada píxel RGB de la imagen segmentada, normalizada a [0,1], predecir su valor UV.  
    - **Concatenación y resize:**  
      - Combinar los cuatro canales: `[UV_pred, R, G, B]`.  
@@ -165,10 +165,6 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
        \text{valor\_normalizado} \;=\; \frac{\text{valor} - \mu_{\text{canal}}}{\sigma_{\text{canal}}}
      \]
    - Guardar las matrices normalizadas en memoria o disco según se requiera para las siguientes fases.
-
-4. **División de Conjuntos (Opcional)**  
-   - Si se dispone de alguna etiqueta parcial (por ejemplo, especie) para un subconjunto de plumas, reservar un 70 % de esas imágenes para extracción de embeddings y clustering inicial, y el 30 % restante para pruebas de recuperación o validación.  
-   - En ausencia de etiquetas, todo el dataset se procesará para extracción de embeddings y análisis no supervisado.
 
 ---
 
