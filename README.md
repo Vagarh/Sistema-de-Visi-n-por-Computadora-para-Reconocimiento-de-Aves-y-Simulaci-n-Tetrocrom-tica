@@ -239,9 +239,9 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 
 ## Resumen de Resultados
 
-https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/RGB-PLUMA.png
+(https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/RGB-PLUMA.png)
 
-https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/RGB%20VS%20RGB+UVA%20UMAP.png
+(https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/RGB%20VS%20RGB+UVA%20UMAP.png)
 
 - **Mejora en el Clustering No Supervisado**  
   - Utilizando solo canales RGB, el coeficiente de Silhouette promedio alcanzó **0.39**.  
