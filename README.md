@@ -108,7 +108,7 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 - **Descripción:** Conjunto de 28,272 imágenes de plumas de aves (cortadas) recopiladas de foros, sitios web públicos y motores de búsqueda.  
 - **Estructura:**
   - Organización taxonómica simplificada: carpeta por Orden, subcarpeta por Especie.
-  - Imágenes en TIFF con fondo variable (RGB; algunas con canal alfa tras remoción de fondo).  
+  - Imágenes en JPG con fondo variable (RGB; algunas con canal alfa tras remoción de fondo).  
 
 ---
 
