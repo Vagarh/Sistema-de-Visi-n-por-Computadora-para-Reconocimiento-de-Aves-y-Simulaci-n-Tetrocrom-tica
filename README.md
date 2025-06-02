@@ -7,8 +7,7 @@
 Este repositorio implementa una solución de Ciencia de Datos que combina técnicas de visión por computadora, simulación tetrocromática y análisis ecológico. El objetivo principal es simular la percepción visual de las aves (cuatro canales: UV, R, G, B) y utilizar dicha información para:
 
 1. Reconocimiento y clasificación de especies.
-2. Agrupación no supervisada basada en patrones de coloración y estrategias evolutivas.
-3. Análisis de hipótesis sobre mimetismo, camuflaje y convergencia evolutiva.
+2. Agrupación no supervisada basada en patrones de coloración y estrategias evolutivas.(BEIT ajustado)
 
 El proyecto se basa en dos fuentes de datos principales:
 
@@ -45,18 +44,21 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 ## Objetivos
 
 1. **Simular la percepción tetrocromática** de las aves añadiendo un canal ultravioleta (UV) proxy a imágenes originalmente capturadas en RGB.  
-2. **Segmentar automáticamente** cada ave del fondo (ROI) usando modelos de segmentación hibrida (YOLOv8-Seg / Mask R-CNN).  
+2. **Segmentar automáticamente** cada foto de plumas del fondo usando rembg un modelo de segmentación (normalmente U-2-Net o variantes) para detectar el sujeto en primer plano y generar un canal alfa que lo aísla del resto
 3. **Normalizar y preprocesar** las imágenes recortadas:
-   - Equalización de histogramas (CLAHE) por canal.
-   - Estandarización (z-score) por canal (UV, R, G, B).  
+   - Estandarización (z-score) por canal (UV, R, G, B).
+   - Se dejan las imagenes en 224x224 pixeles mantiendiendo los 4 canales 
+   - Se usa resize  
 4. **Extraer descriptores** de color, textura y forma:
-   - Histogramas multicanal y momentos estadísticos (media, varianza).  
-   - Descriptores de textura: GLCM (Gray Level Co-Occurrence Matrix) y LBP (Local Binary Patterns).  
-   - Super-píxeles (SLIC) para análisis de regiones homogéneas.  
+   - Se usa un BEIT Preentrando para analisiszar las imangenes de 3 canales y tmabien un BEIT adaptado para 4 canales 
+   - Se extraen los emmbeding para rbg y rgb+uvb
+   - Se compara y mide la diferencia entre embdeddings 
 5. **Agrupar especies** usando técnicas de clustering y reducción de dimensiones (PCA, UMAP + KMeans/HDBSCAN).  
 6. **Clasificar especies** mediante métodos supervisados:
    - Fine-tuning de CNNs 4-canal ( BEiT adaptado).  
    - Métricas de desempeño: precisión, recall, F1 y matriz de confusión.  
+   - Metricas de Cophenetic correlation
+   - Generacion de Cladogramas
 7. **Evaluar hipótesis ecológicas**:
    - Contrastar patrones de color entre clusters no taxonómicos.
    - Analizar mimetismo y convergencia evolutiva mediante pruebas estadísticas (ANOVA, tests post-hoc).  
@@ -95,11 +97,6 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
   - Ornitólogos.  
   - Equipos de conservación y gestión de biodiversidad.  
 
----
-
-<!-- Espacio para un diagrama de flujo de CRISP-DM -->
-  
-  
 
 ### 2. Comprensión de los Datos
 
