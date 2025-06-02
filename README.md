@@ -283,8 +283,8 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 
 ## Resumen de Resultados
 
-[**Figura 1. Proyección UMAP**](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/UMAP.png)  
-[**Figura 2. Comparación de dendrogramas**](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/comparacion%20dendrogramas.png)  
+![**Figura 1. Proyección UMAP**](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/UMAP.png)  
+![**Figura 2. Comparación de dendrogramas**](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/comparacion%20dendrogramas.png)  
 
 La incorporación del canal UVB modifica de forma notable la estructura jerárquica de agrupamiento. Al añadir esta dimensión, las distancias entre las muestras de plumaje cambian, generando un dendrograma distinto: la correlación cophenética pasa de **0,3501** en el espacio solo RGB a **0,2591** en el espacio RGB + UVB. Esto confirma que la jerarquía resultante ya no refleja únicamente las distancias basadas en colores visibles.
 
