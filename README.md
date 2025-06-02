@@ -1,4 +1,4 @@
-# Sistema de Visión por Computadora para Reconocimiento de Aves y Simulación Tetrocromática
+# Sistema de Visión por Computadora para Reconocimiento de Aves con simulación Tetrocromática mediante la adicion de un canal UVB estimado en imagenes RGB
 
 ---
 
@@ -9,12 +9,28 @@ Este repositorio implementa una solución de Ciencia de Datos que combina técni
 1. Reconocimiento y clasificación de especies.
 2. Agrupación no supervisada basada en patrones de coloración y estrategias evolutivas.(BEIT ajustado)
 
-El proyecto se basa en dos fuentes de datos principales:
+El proyecto se basa en tres fuentes de datos principales:
 
-- **LaSBiRD**: Conjunto de imágenes de aves con bounding boxes y metadatos taxonómicos.
-- **FeathersV1**: Imágenes de plumas de aves en formato TIFF (RGB + canal alfa).
+- **BirdColorbase** Conjunto de mediciones de espectofotometris de 2500 especies de aves.
+- **FeathersV1**: Imágenes de plumas de aves en formato JGP.
 
 A lo largo de las fases de CRISP-DM, se abordan desde la extracción y segmentación de aves, hasta la extracción de descriptores y el entrenamiento de modelos supervisados y no supervisados.
+
+## Hipotesis 
+
+La adición de un canal ultravioleta estimado a las imágenes RGB de aves incrementa la diferenciación cromática, mejora la separación de clústeres y revela relaciones evolutivas y ecológicas que no se detectan utilizando solamente el espacio de color visible.
+
+## Criterios de Exito
+
+En conjunto, la hipótesis se valida cuando se demuestre que:
+
+- Métricas cuantitativas (Silhouette, cophenetic, precisión de clasificación) mejoran al incluir UVB.
+
+- Visualmente, la separación de grupos en proyecciones UMAP/PCA es más nítida con el canal UV.
+
+- Dendrogramas muestran reagrupamientos significativos en RGB+UVB que no aparecen en RGB, indicando patrones evolutivos o ecológicos adicionales.
+
+De confirmarse, este resultado avalaría la pertinencia de emplear simulación tetrocromática en aplicaciones de visión por computadora orientadas a ornitología, conservación y análisis evolutivo.
 
 ---
 
@@ -23,7 +39,6 @@ A lo largo de las fases de CRISP-DM, se abordan desde la extracción y segmentac
 ![Ejemplo de visión tetrocromática](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/VISIOTETRACROMICA.jpg_large)
 
   
-
 ---
 
 ## Justificación Biológica
@@ -43,34 +58,44 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 
 ## Objetivos
 
-1. **Simular la percepción tetrocromática** de las aves añadiendo un canal ultravioleta (UV) proxy a imágenes originalmente capturadas en RGB.  
-2. **Segmentar automáticamente** cada foto de plumas del fondo usando rembg un modelo de segmentación (normalmente U-2-Net o variantes) para detectar el sujeto en primer plano y generar un canal alfa que lo aísla del resto
-3. **Normalizar y preprocesar** las imágenes recortadas:
-   - Estandarización (z-score) por canal (UV, R, G, B).
-   - Se dejan las imagenes en 224x224 pixeles mantiendiendo los 4 canales 
-   - Se usa resize  
-4. **Extraer descriptores** de color, textura y forma:
-   - Se usa un BEIT Preentrando para analisiszar las imangenes de 3 canales y tmabien un BEIT adaptado para 4 canales 
-   - Se extraen los emmbeding para rbg y rgb+uvb
-   - Se compara y mide la diferencia entre embdeddings 
-5. **Agrupar especies** usando técnicas de clustering y reducción de dimensiones (PCA, UMAP + KMeans/HDBSCAN).  
-6. **Clasificar especies** mediante métodos supervisados:
-   - Fine-tuning de CNNs 4-canal ( BEiT adaptado).  
-   - Métricas de desempeño: precisión, recall, F1 y matriz de confusión.  
-   - Metricas de Cophenetic correlation
-   - Generacion de Cladogramas
-7. **Evaluar hipótesis ecológicas**:
-   - Contrastar patrones de color entre clusters no taxonómicos.
-   - Analizar mimetismo y convergencia evolutiva mediante pruebas estadísticas (ANOVA, tests post-hoc).  
-   - Validación geoespacial para estudiar el efecto de la variabilidad ambiental en agrupamientos.
+## Objetivos
+
+1. **Simular la percepción tetrocromática**  
+   - Generar un canal ultravioleta (UV) proxy a partir de imágenes RGB de plumas, usando un modelo de regresión entrenado con datos espectrales.
+
+2. **Segmentar automáticamente las plumas**  
+   - Aplicar `rembg` o un modelo basado en U²-Net para obtener una máscara alfa que aísle la pluma del fondo, dejando únicamente el sujeto en primer plano.
+
+3. **Normalizar y preprocesar las imágenes**  
+   - Redimensionar cada recorte a 224 × 224 píxeles, conservando los cuatro canales (UV, R, G, B).  
+   - Estandarizar (z-score) cada canal de las imágenes 4-canal para garantizar comparabilidad.
+
+4. **Extraer descriptores y embeddings**  
+   - Emplear un modelo BEiT preentrenado (3 canales) para extraer embeddings RGB.  
+   - Adaptar BEiT a entrada 4 canales (RGB+UV) y extraer los embeddings correspondientes.  
+   - Calcular la diferencia y la distancia entre embeddings RGB vs. RGB+UVB para cuantificar el aporte del canal UV.
+
+5. **Agrupar plumas y especies**  
+   - Reducir dimensión con PCA/UMAP sobre los embeddings.  
+   - Aplicar K-Means y HDBSCAN para identificar clusters basados en patrones de coloración (incluyendo UV).
+
+6. **Clasificar especies con redes supervisadas**  
+   - Realizar fine-tuning de BEiT 4-canal para clasificación de especies de aves a partir de plumas.    
+   - Calcular el coeficiente de correlación cophenética en el espacio jerárquico.  
+   - Generar cladogramas a partir de los embeddings promedio por especie.
+
+7. **Evaluar hipótesis ecológicas y evolutivas Pendiente **  
+   - Contrastar patrones de coloración entre clusters no taxonómicos (mimetismo, camuflaje).  
+   - Realizar pruebas estadísticas (ANOVA y tests post-hoc) para identificar diferencias significativas en reflectancia UV/RGB.  
+   - Validar geoespacialmente los agrupamientos: analizar cómo la variabilidad ambiental (radiación UV, hábitat) influye en la organización de clusters.
 
 ---
 
 ## Datasets
 
-### 1. LaSBiRD
+### 1. BirdColorbase
 
-- **Repositorio:** [LaSBiRD en GitHub](https://github.com/BirdColorBase/home)  
+- **Repositorio:** [BirdColorBase en GitHub](https://github.com/BirdColorBase/home)  
 - **Descripción:** Base de datos espectral con mediciones de reflectancia (300–700 nm) para más de 2,500 especies de aves.  
 - **Contenido:**
   - Archivos CSV con percent reflectance por “patch” de plumaje.
@@ -87,130 +112,149 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 
 ---
 
-## Metodología (CRISP-DM)
+## Metodología Ajustada (CRISP-DM)
 
 ### 1. Comprensión del Negocio
 
-- **Alcance:** Desarrollar herramientas cuantitativas para investigación ecológica y conservación basadas en análisis de patrones de color y segmentación de sujetos.  
-- **Stakeholders:**  
-  - Biólogos evolutivos.  
-  - Ornitólogos.  
-  - Equipos de conservación y gestión de biodiversidad.  
+- **Alcance:**  
+  Desarrollar un pipeline de análisis de imágenes de plumas que combine simulación de visión tetrocromática con extracción de embeddings, clustering y análisis jerárquico. El objetivo es proporcionar a ornitólogos y equipos de conservación herramientas cuantitativas para:
+  - Differenciar patrones de coloración incluidos aquellos en ultravioleta.
+  - Agrupar plumas y especies según similitudes visuales.
+  - Generar cladogramas basados en embeddings para apoyar estudios evolutivos y ecológicos.
 
+- **Stakeholders:**  
+  - Biólogos evolutivos  
+  - Ornitólogos  
+  - Equipos de conservación y biodiversidad  
+  - Data scientists interesados en visión computacional aplicada a ecología  
+
+---
 
 ### 2. Comprensión de los Datos
 
-1. **Exploración de LaSBiRD**  
-   - Distribución de especies por región geográfica.  
-   - Calidad de metadatos: bounding boxes, máscaras, filtración de duplicados.  
-   - Inspección de las longitudes de onda: uniformidad de las lecturas UV vs. visible.  
-2. **Análisis de FeathersV1**  
-   - Verificación de formatos (TIFF multicanal).  
-   - Revisión de metadatos (nombres de archivos, correspondencia taxonómica).  
-   - Mapeo de imágenes por especie y cálculo de estadísticas básicas de píxeles.
+1. **Exploración de FeathersV1**  
+   - Verificar que las imágenes de plumas estén en formato TIFF y, tras remoción de fondo, continúen con 4 canales (RGBA o RGB+canal alfa).  
+   - Validar nombres de archivo y estructura de carpetas para asegurar correspondencia con metadatos taxonómicos (si existieran).  
+   - Calcular estadísticas básicas de píxeles (forma, rango de valores) para cada canal (R, G, B, Alfa).
+
+2. **Inspección del Modelo de Simulación UV**  
+   - Revisar el dataset espectral usado para entrenar el modelo de regresión UV (por ejemplo, datos de LaSBiRD transformados a valores RGB/UV).  
+   - Confirmar calidad de ajuste (R², MAE) en los datos espectrales antes de proceder a predecir UV para cada píxel.
 
 ---
 
 ### 3. Preparación de los Datos
 
-1. **Detección y Segmentación Híbrida**  
-   - **YOLOv8-Seg**: detección rápida de aves con segmentación ligera.  
-   - **Mask R-CNN (Detectron2)**: segmentación más precisa en casos complejos.  
-   - Pipeline:  
-     - Detectar bounding box con YOLOv8.  
-     - Refinar máscara con Mask R-CNN si la forma es irregular.  
-     - Extraer ROI (región de interés) de cada ave.  
-2. **Recorte de Sujetos**  
-   - Aplicar máscara binaria para aislar ave sobre fondo.  
-   - Guardar recortes en carpeta `data/recortes/`.  
-3. **Simulación Tetrocromática**  
-   - **Generación de canal UV proxy:**  
-     - Entrenar un modelo de regresión (HistGradientBoostingRegressor) en datos espectrales de LaSBiRD.  
-     - Variables de entrada (X): valores RGB simulados a partir de espectros.  
-     - Variable objetivo (y): reflectancia UV (300–400 nm).  
-     - Pipeline de scikit-learn:  
-       1. `PolynomialFeatures` (grado 2-3).  
-       2. `StandardScaler`.  
-       3. `HistGradientBoostingRegressor` con búsqueda aleatoria de hiperparámetros (RandomizedSearchCV).  
-   - **Construcción de tensor 4-canal:**  
-     - Leer imagen RGB recortada.  
-     - Predecir valor UV para cada píxel con el modelo entrenado.  
-     - Concatenar canales: `[UV_pred, R, G, B]`.  
-     - Guardar imagen 4-canal en formato TIFF.  
-4. **Normalización**  
-   - **Ecualización de histogramas (CLAHE)** por canal (UV, R, G, B).  
-   - **Estandarización (z-score)**: `(valor − media) / desviación_estándar` por canal.  
-5. **División en Conjuntos**  
-   - Partición estratificada (taxonómica/por especie) en:  
-     - **Train**: 70 %  
-     - **Validation**: 15 %  
-     - **Test**: 15 %  
+1. **Segmentación Automática de Plumas**  
+   - Utilizar `rembg` (que emplea U²-Net internamente) para eliminar el fondo de cada imagen de pluma y obtener una máscara alfa que aísle el sujeto.  
+   - Guardar el resultado como imagen RGBA en `data/processed/feathers/segmented/` (el canal Alfa marca la pluma).
+
+2. **Construcción del Tensor 4-Canal (RGB+UV)**  
+   - **Predicción del canal UV proxy:**  
+     - Cargar el modelo de regresión entrenado previamente con datos espectrales.  
+     - Por cada píxel RGB de la imagen segmentada, normalizada a [0,1], predecir su valor UV.  
+   - **Concatenación y resize:**  
+     - Combinar los cuatro canales: `[UV_pred, R, G, B]`.  
+     - Redimensionar a 224 × 224 píxeles manteniendo los cuatro canales.  
+   - Almacenar las imágenes resultantes en `data/processed/feathers/4channel/`.
+
+3. **Normalización**  
+   - Para cada imagen 4-Canal (224×224), calcular media y desviación estándar de cada uno de los cuatro canales (UV, R, G, B) sobre el dataset completo.  
+   - Aplicar estandarización por canal (z-score) siguiendo:  
+     \[
+       \text{valor\_normalizado} \;=\; \frac{\text{valor} - \mu_{\text{canal}}}{\sigma_{\text{canal}}}
+     \]
+   - Guardar las matrices normalizadas en memoria o disco según se requiera para las siguientes fases.
+
+4. **División de Conjuntos (Opcional)**  
+   - Si se dispone de alguna etiqueta parcial (por ejemplo, especie) para un subconjunto de plumas, reservar un 70 % de esas imágenes para extracción de embeddings y clustering inicial, y el 30 % restante para pruebas de recuperación o validación.  
+   - En ausencia de etiquetas, todo el dataset se procesará para extracción de embeddings y análisis no supervisado.
 
 ---
 
-### 4. Modelado
+### 4. Extracción de Embeddings
 
-1. **Extracción de Características**  
-   - **Descriptores de Color:**  
-     - Histogramas multicanal (UV, R, G, B).  
-     - Momentos estadísticos: media, varianza, sesgo, curtosis.  
-   - **Descriptores de Textura:**  
-     - GLCM (Gray Level Co-Occurrence Matrix): contraste, correlación, homogeneidad, entropía.  
-     - LBP (Local Binary Patterns).  
-   - **Super-píxeles (SLIC)**: agrupación en regiones homogéneas, extracción de features localizadas.  
-2. **Clustering y Análisis No Supervisado**  
-   - **Reducción de Dimensión:**  
-     - PCA para entender varianza explicada.  
-     - UMAP para visualización en 2D/3D.  
-   - **Algoritmos de Agrupamiento:**  
-     - K-Means: evaluación con métricas internas (Silhouette, Davies-Bouldin, Calinski-Harabasz).  
-     - HDBSCAN para detección de clusters de densidad variable.  
-   - **Objetivo:** Identificar agrupaciones basadas en patrones de color + UV que puedan revelar mimetismo, convergencia o características evolutivas independientes de la taxonomía.  
-3. **Clasificación Supervisada**  
-   - **Arquitecturas CNN 4-canal:**  
-     - **ResNet50 / EfficientNet modificados** para entrada de 4 canales.  
-     - **BEiT (Vision Transformer) adaptado:**  
-       - Ajuste de la primera capa patch_embed.proj para recibir 4 canales.  
-       - Inicialización de pesos del canal UV con ligeras perturbaciones (copia de canal R + ruido).  
-   - **Pipeline de Entrenamiento:**  
-     1. Carga de imágenes 4-canal (224 × 224) con transformaciones (normalización, augmentation ligera).  
-     2. Fine-tuning de la red preentrenada en ImageNet (RGB) adaptada a 4 canales.  
-     3. Optimización con AdamW / SGD con scheduler de tasa de aprendizaje (CosineAnnealingLR).  
-   - **Métricas de Evaluación:**  
-     - Precisión por clase, recall, F1-score.  
-     - Matriz de confusión global y por familia taxonómica.  
-     - Curva ROC-AUC (por especie si hay binarización).  
+1. **BEiT Preentrenado (3 Canales)**  
+   - Cargar la versión estándar de BEiT (preentrenado en ImageNet) y adaptar su pipeline de preprocesamiento para recibir entradas de 224 × 224 × 3 (RGB sin canal UV).  
+   - Para cada imagen original (RGB), extraer el embedding de la capa penúltima (vector de características fijas).
+
+2. **BEiT Adaptado (4 Canales)**  
+   - Modificar la capa inicial de BEiT (`patch_embed.proj`) para aceptar 4 canales en lugar de 3.  
+     - Inicializar los pesos del canal UV copiando levemente los del canal R y añadiendo ruido gaussiano pequeño (permitiendo que el modelo aprenda a usar UV en posteriores ajustes).  
+   - Conservar el resto de la arquitectura idéntica para fine-tuning si se quisiera entrenar; sin embargo, si no se ajusta, usar directamente como extractor de características 4-canal.  
+   - Para cada imagen normalizada 4-Canal (224 × 224 × 4), extraer el embedding.
+
+3. **Cálculo de Diferencias entre Embeddings**  
+   - Para cada par de embeddings (RGB vs. RGB+UV), calcular:  
+     - **Distancia coseno** \(\; d_{\cos}(\mathbf{e}_{RGB}, \mathbf{e}_{RGB+UV}) = 1 - \frac{\mathbf{e}_{RGB} \cdot \mathbf{e}_{RGB+UV}}{\lVert \mathbf{e}_{RGB}\rVert \,\lVert \mathbf{e}_{RGB+UV}\rVert}\).  
+     - **Norma de la diferencia** \(\; \lVert \mathbf{e}_{RGB} - \mathbf{e}_{RGB+UV} \rVert_{2}\).  
+   - Almacenar las dos versiones de embeddings y sus distancias en CSVs:  
+     - `embeddings_rgb.csv`  
+     - `embeddings_rgb_uv.csv`  
+     - `distancias_embeddings.csv`  
 
 ---
 
-### 5. Evaluación y Validación
+### 5. Clustering y Análisis No Supervisado
 
-1. **Validación Cruzada**  
-   - K-Fold estratificado (por especie) con K = 5.  
-   - Análisis de varianza de métricas entre folds.  
-2. **Análisis de Errores**  
-   - Inspección de clases confundidas:  
-     - Especies con similitud morfológica cercana.  
-     - Impacto del canal UV en la discriminación.  
-3. **Pruebas Estadísticas**  
-   - ANOVA y tests post-hoc (Tukey) para comparar promedios de métricas entre grupos taxonómicos.  
-   - Pruebas de correlación (Spearman / Pearson) entre estadísticos de clusters y variables ambientales.  
-4. **Evaluación Ecológica**  
-   - Identificación de clústeres no taxonómicos con alta similitud cromática (posible mimetismo).  
-   - Correlación geoespacial:  
-     - Superponer coordenadas de muestreo (metadatos) con resultados de clustering.  
-     - Análisis de variabilidad ambiental (temperatura, vegetación) vs. agrupamientos.  
-5. **Visualización de Resultados**  
-   - **Dendrogramas (Cladogramas):**  
-     - Clustering jerárquico de promedios de embeddings por especie (RGB vs. RGB+UV).  
-     - Cophenetic Correlation Coefficient para cuantificar ajuste.  
-     - Tanglegram para comparar estructuras de dendrogramas.  
-   - **Gráficos de UMAP / t-SNE:**  
-     - Proyección 2D de embeddings para inspección visual de separabilidad.  
-     - Coloreado por familia taxonómica o por cluster HDBSCAN.  
-   - **Curvas Espectrales Promedio:**  
-     - Graficar reflectancia media por canal (UV, R, G, B) vs. longitud de onda.  
-     - Invertir eje X para mostrar UV (corto) a la izquierda.  
+1. **Reducción de Dimensión**  
+   - Aplicar **PCA** sobre los embeddings (tanto RGB como RGB+UV) para determinar cuántas componentes explican, por ejemplo, el 95 % de la varianza.  
+   - Utilizar **UMAP** (con vecinos = 15, distancia mínima = 0.1) para proyectar los embeddings en 2D, facilitando la visualización.
+
+2. **Clustering**  
+   - **K-Means** (k = 5 a 10, según heurísticas como elbow method): agrupar puntos en el espacio reducido (PCA o UMAP). Calcular:  
+     - Silhouette Score  
+     - Davies-Bouldin Index  
+     - Calinski-Harabasz Score  
+   - **HDBSCAN** (mínimo de 10 muestras por cluster): detectar agrupaciones de densidad variable, útil si existen subgrupos más pequeños o ruido.  
+   - Comparar métricas entre versiones RGB vs. RGB+UV:  
+     - Evaluar si agregar UV mejora Silhouette, reduce Davies-Bouldin y/o incrementa Calinski-Harabasz.
+
+3. **Análisis de Clusters**  
+   - Para cada cluster obtenido (RGB y RGB+UV), calcular estadísticos de distancia interna (promedio coseno entre pares de embeddings dentro del mismo cluster).  
+   - Visualizar los clusters en el espacio UMAP, coloreando por etiqueta (si se dispone) o por clusters HDBSCAN.  
+   - Inspeccionar clusters cualitativamente: revisar ejemplos de plumas en cada clúster para interpretar agrupamientos (mimetismo, convergencia).
+
+---
+
+### 6. Análisis Jerárquico y Cladogramas
+
+1. **Promedio de Embeddings por “Grupo”**  
+   - Si existe metadato de “especie” o “familia” para un subconjunto, agrupar embeddings por ese campo y calcular el embedding promedio (centroide) de cada grupo.  
+   - En ausencia de etiquetas fijas, se puede promediar embeddings de subclusters (p. ej., agrupaciones HDBSCAN).
+
+2. **Distancia de Coseno entre Embeddings Promedios**  
+   - Generar la matriz de distancias (coseno) entre centroides de cada grupo.  
+   - Construir el linkage jerárquico (método promedio) a partir de dicha matriz.
+
+3. **Coeficiente Cophenético**  
+   - Calcular el coeficiente cophenético para los dendrogramas basados en embeddings RGB y en embeddings RGB+UV.  
+   - Comparar valores:  
+     - Un coeficiente más alto indica que el dendrograma refleja mejor las distancias originales.  
+     - Un valor más bajo en RGB+UV —en comparación con RGB— puede sugerir reorganizaciones importantes basadas en información UV.
+
+4. **Tanglegram**  
+   - Visualizar ambos dendrogramas (RGB vs. RGB+UV) en un tanglegram, conectando los mismos grupos en los dos árboles.  
+   - Observar reordenamientos de ramas que indiquen convergencias o divergencias de agrupamientos al añadir el canal UV.
+
+
+---
+
+### 7. Evaluación de Hipótesis Ecológicas ( NO DESARROLLADO)
+
+1. **Comparación de Clusters No Taxonómicos**  
+   - Identificar clusters que combinen plumas de distintas especies o familias en el agrupamiento RGB+UV pero que estén separadas en RGB.  
+   - Interpretar si dichos clusters corresponden a mimetismo (colores UV similares en especies no emparentadas) o adaptaciones comunes al mismo hábitat.
+
+2. **Pruebas Estadísticas**  
+   - Para cada cluster (RGB+UV), extraer métricas de reflectancia promedio por canal (UV, R, G, B).  
+   - Realizar **ANOVA** para comparar valores medios de canal UV entre clusters, verificando si existen diferencias significativas.  
+   - Si el ANOVA resulta significativo, aplicar **tests post-hoc (Tukey)** para identificar pares de clusters con diferencias reales en reflectancia UV.
+
+3. **Validación Geoespacial**  
+   - Si se dispone de coordenadas de muestreo para las plumas, superponer clusters sobre un mapa.  
+   - Evaluar si clusters basados en UV tienden a corresponder con regiones de alta radiación UV o hábitats similares (e.g., montañas vs. costa).  
+   - Calcular correlaciones (Spearman o Pearson) entre promedios de UV en un cluster y variables ambientales (radiación UV promedio de la región, altitud).
 
 ---
 
@@ -218,15 +262,16 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 
 | Fase                       | Herramientas / Bibliotecas                                                                                     |
 |----------------------------|------------------------------------------------------------------------------------------------------------------|
-| Segmentación               | Ultralytics YOLOv8-Seg, Detectron2 (Mask R-CNN)                                                                 |
-| Simulación Tetrocromática  | OpenCV, NumPy, SciPy                                                                                             |
-| Entrenamiento UV-Model     | scikit-learn (PolynomialFeatures, StandardScaler, HistGradientBoostingRegressor, RandomizedSearchCV)            |
-| Extracción de Features     | scikit-image (GLCM, LBP), scikit-learn (PCA, UMAP, HDBSCAN), NumPy                                              |
-| Modelado Supervisado       | PyTorch, Torchvision, timm (BEiT), torchvision.transforms                                                          |
-| Evaluación de Clustering   | scikit-learn (KMeans, Silhouette Score, Davies-Bouldin, Calinski-Harabasz), scipy (Mantel Test)                |
+| Segmentación               | `rembg` (U²-Net internamente)                                                                                   |
+| Simulación Tetrocromática  | OpenCV, NumPy, SciPy, scikit-learn (HistGradientBoostingRegressor, PolynomialFeatures, StandardScaler)           |
+| Extracción de Embeddings   | PyTorch, timm (BEiT), `torchvision.transforms`                                                                    |
+| Reducción de Dimensión     | scikit-learn (PCA), UMAP                                                                                          |
+| Clustering                 | scikit-learn (KMeans, Silhouette Score, Davies-Bouldin, Calinski-Harabasz), HDBSCAN                              |
+| Análisis Jerárquico        | SciPy (`linkage`, `cophenet`), scikit-bio (Mantel test)                                                            |
+| Pruebas Estadísticas       | SciPy (`f_oneway`, `pairwise_tukeyhsd` de `statsmodels`), pandas                                                 |
 | Visualización              | Matplotlib, Seaborn                                                                                                |
-| Lectura/Escritura de TIFF  | tifffile, OpenCV                                                                                                  |
-| Gestión de Datos y IO      | pandas, os, glob                                                                                                  |
+| Gestión de Imágenes TIFF   | tifffile, OpenCV                                                                                                  |
+| Manejo de Datos y IO       | pandas, os, glob                                                                                                  |
 | Orquestación de Notebooks  | Jupyter Notebook / Google Colab                                                                                   |
 | Control de Versiones       | Git, GitHub                                                                                                       |
 | Entorno de Desarrollo      | Python 3.9+, Conda / virtualenv                                                                                   |
@@ -236,28 +281,20 @@ La simulación de un canal UV proxy über imágenes RGB amplía los descriptores
 
 ## Resumen de Resultados
 
-(https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/RGB-PLUMA.png)
+## Resumen de Resultados
 
-(https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/RGB%20VS%20RGB+UVA%20UMAP.png)
+[**Figura 1. Proyección UMAP**](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/UMAP.png)  
+[**Figura 2. Comparación de dendrogramas**](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/comparacion%20dendrogramas.png)  
 
-- **Mejora en el Clustering No Supervisado**  
-  - Utilizando solo canales RGB, el coeficiente de Silhouette promedio alcanzó **0.39**.  
-  - Al incorporar el canal UV sintético (RGB+UVB), el coeficiente de Silhouette subió a **0.42**, lo que evidencia una mejor cohesión interna y separación de clusters.
+La incorporación del canal UVB modifica de forma notable la estructura jerárquica de agrupamiento. Al añadir esta dimensión, las distancias entre las muestras de plumaje cambian, generando un dendrograma distinto: la correlación cophenética pasa de **0,3501** en el espacio solo RGB a **0,2591** en el espacio RGB + UVB. Esto confirma que la jerarquía resultante ya no refleja únicamente las distancias basadas en colores visibles.
 
-- **Reorganización de la Jerarquía Evolutiva**  
-  - El coeficiente cophenético para embeddings RGB fue **0.3501**, mientras que para RGB+UVB bajó a **0.2591**.  
-  - Esta disminución refleja que el canal UV sintético introduce nuevas relaciones jerárquicas basadas en patrones ultravioleta, permitiendo identificar agrupaciones evolutivas que no se detectan con RGB únicamente.
+Desde el punto de vista espectral, el canal UVB aporta información clave. Algunas especies presentan reflectancia en ultravioleta que no se detecta en RGB, por lo que UVB captura características biológicamente relevantes y “ocultas” al ojo humano. Esa señal complementaria enriquece el espacio de características y permite distinguir ejemplares cuyas plumas, en RGB, podrían parecer idénticas.
 
-- **Modificación en el Espacio de Embeddings**  
-  - Al comparar las proyecciones en 2D, se observa que los embeddings RGB+UVB desplazan y reorganizan la nube de puntos.  
-  - Esta reconfiguración sugiere que la dimensión UV aporta información discriminativa que modifica las distancias latentes entre imágenes, facilitando la separación de subconjuntos específicos.
+Además, la inclusión de UVB produce clusters más cohesionados y mejor separados. En el análisis con K-Means y validación interna, la puntuación de **Silhouette aumenta de 0,39 a 0,42** al sumar el canal UVB, indicando que cada punto se agrupa de modo más compacto y queda mejor aislado de puntos ajenos. Simultáneamente, el índice de **Davies–Bouldin disminuye** (clusters más compactos) y el índice de **Calinski–Harabasz crece ligeramente** (mayor disparidad entre varianza intra- e intercluster).
 
-- **Variabilidad Espectral del Canal UV**  
-  - La curva espectral promedio muestra reflectancia más alta en R (~0.50) y G (~0.45), y disminuye hacia UV (~0.10).  
-  - No obstante, existen muestras individuales con picos de reflectancia UV cercanos a 0.8, lo cual confirma que el canal UV sintético aporta suficiente variabilidad para mejorar la diferenciación de especies.
+La proyección UMAP (Figura 1) corrobora estas mejoras, mostrando que los cinco grupos resultantes en el espacio RGB + UVB están más claramente diferenciados y presentan menos solapamientos que en el espacio solo RGB. En conjunto, estos hallazgos demuestran que el canal UVB revela patrones espectrales ocultos en el plumaje de aves, validando su uso para descubrir agrupaciones que no son detectables únicamente con la información visible. Por tanto, la integración de UVB constituye una estrategia eficaz para identificar características “invisibles” en las plumas y avanzar en el estudio de su ecología y taxonomía.
 
-> **Conclusión breve:**  
-> La integración del canal UV sintético **mejora la capacidad de separación** en tareas de clustering, **reconfigura la jerarquía** de similitud entre especies y añade **información espectral relevante**. Estos resultados validan el valor agregado del canal UV-proxy para el análisis de patrones de color en aves y su aplicación en estudios ecológicos y evolutivos.
+
 
 
 ```
