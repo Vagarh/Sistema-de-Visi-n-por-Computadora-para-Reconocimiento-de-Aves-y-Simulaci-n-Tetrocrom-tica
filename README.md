@@ -291,9 +291,3 @@ Además, la inclusión de UVB produce clusters más cohesionados y mejor separad
 
 La proyección UMAP (Figura 1) corrobora estas mejoras, mostrando que los cinco grupos resultantes en el espacio RGB + UVB están más claramente diferenciados y presentan menos solapamientos que en el espacio solo RGB. En conjunto, estos hallazgos demuestran que el canal UVB revela patrones espectrales ocultos en el plumaje de aves, validando su uso para descubrir agrupaciones que no son detectables únicamente con la información visible. Por tanto, la integración de UVB constituye una estrategia eficaz para identificar características “invisibles” en las plumas y avanzar en el estudio de su ecología y taxonomía.
 
-
-
-
-```
-
-
