@@ -1,19 +1,63 @@
-# General
-.DS_Store
-*/.DS_Store
+# Archivos de Python
 __pycache__/
 *.py[cod]
-.ipynb_checkpoints/
-*/.ipynb_checkpoints/
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Virtual environments
+# Entornos virtuales
+.env
+.venv
+env/
 venv/
 ENV/
-.env
+env.bak/
+venv.bak/
 
-# Jupyter notebook checkpoints
-*checkpoint*
+# Jupyter Notebooks
+.ipynb_checkpoints
 
-# Temporary files
+# Archivos grandes de datos (opcional - puedes incluir algunos ejemplos pequeños)
+birds_image/feathers/processed_feathers_uvb/
+birds_image/feathers/uvb_feathers/
+birds_image/feathers/resized_feathers_uvb/
+birds_image/feathers/sam_crops_4ch/
+
+# Archivos de Excel grandes
+Birdcolorbase/*.xlsx
+
+# Archivos temporales
 *.tmp
+*.temp
+demo_preview.png
+
+# Logs
 *.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Mantener solo algunos archivos de ejemplo
+!birds_image/feathers/images/columbiformes/columba_livia/columbiformes_columba_livia_00000.jpg
+!birds_image/feathers/images/columbiformes/columba_livia/columbiformes_columba_livia_00001.jpg
+!birds_image/feathers/images/columbiformes/columba_livia/columbiformes_columba_livia_00002.jpg
