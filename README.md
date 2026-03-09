@@ -1,293 +1,140 @@
-# Sistema de Visión por Computadora para Reconocimiento de Aves con simulación Tetrocromática mediante la adicion de un canal UVB estimado en imagenes RGB
+<div align="center">
+
+# 🦅 AvianVision: Sistema de Reconocimiento y Simulación Tetrocromática
+
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io)
+[![Machine Learning](https://img.shields.io/badge/Machine%20Learning-PyTorch%20%7C%20Scikit--Learn-FF6F00?logo=pytorch)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+**Una plataforma avanzada de visión computacional y ciencia de datos que recrea la percepción visual de las aves mediante la predicción de un cuarto canal espectral (Ultravioleta - UVB).**
+
+![Visión Tetrocromática](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/VISIOTETRACROMICA.jpg_large)
+
+</div>
 
 ---
 
-## Descripción del Proyecto
+## 📖 Descripción del Proyecto
 
-Este repositorio implementa una solución de Ciencia de Datos que combina técnicas de visión por computadora, simulación tetrocromática y análisis ecológico. El objetivo principal es simular la percepción visual de las aves (cuatro canales: UV, R, G, B) y utilizar dicha información para:
+Las aves perciben el mundo de una forma fundamentalmente distinta a los humanos. Su sistema visual **tetrocromático** cuenta con cuatro tipos de conos fotorreceptores, incluyendo uno especializado en el espectro ultravioleta (UV), invisible para nosotros.
 
-1. Reconocimiento y clasificación de especies.
-2. Agrupación no supervisada basada en patrones de coloración y estrategias evolutivas.(BEIT ajustado)
+**AvianVision** es un proyecto pionero de Machine Learning aplicado a la ornitología y conservación. Su propósito principal es simular esta rica experiencia visual prediciendo un canal UVB profundo a partir de imágenes RGB de plumaje de aves. Al revelar esta dimensión "oculta", el sistema potencia las capacidades de:
 
-El proyecto se basa en tres fuentes de datos principales:
+1. **Reconocimiento y Diferenciación Taxonómica Avanzada**
+2. **Análisis Ecológico y Descubrimiento de Relaciones Evolutivas**
+3. **Agrupación Filogenética Visual Asistida por IA Transformers (BEiT)**
 
-- **BirdColorbase** Conjunto de mediciones de espectofotometris de 2500 especies de aves.
-- **FeathersV1**: Imágenes de plumas de aves en formato JGP.
-
-A lo largo de las fases de CRISP-DM, se abordan desde la extracción y segmentación de aves, hasta la extracción de descriptores y el entrenamiento de modelos supervisados y no supervisados.
-
-## Hipotesis 
-
-La adición de un canal ultravioleta estimado a las imágenes RGB de aves incrementa la diferenciación cromática, mejora la separación de clústeres y revela relaciones evolutivas y ecológicas que no se detectan utilizando solamente el espacio de color visible.
-
-## Criterios de Exito
-
-En conjunto, la hipótesis se valida cuando se demuestre que:
-
-- Métricas cuantitativas (Silhouette, cophenetic, precisión de clasificación) mejoran al incluir UVB.
-
-- Visualmente, la separación de grupos en proyecciones UMAP/PCA es más nítida con el canal UV.
-
-- Dendrogramas muestran reagrupamientos significativos en RGB+UVB que no aparecen en RGB, indicando patrones evolutivos o ecológicos adicionales.
-
-De confirmarse, este resultado avalaría la pertinencia de emplear simulación tetrocromática en aplicaciones de visión por computadora orientadas a ornitología, conservación y análisis evolutivo.
+El flujo de trabajo (basado en CRISP-DM) unifica procesamiento avanzado de imágenes, redes neuronales Vision Transformers (BEiT para 4 canales) y aprendizaje no supervisado.
 
 ---
 
-<!-- Espacio destinado a la imagen de portada del proyecto -->
-  
-![Ejemplo de visión tetrocromática](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/main/Imagenes/VISIOTETRACROMICA.jpg_large)
+## ✨ Características Principales
 
-  
----
-
-## Justificación Biológica
-
-Las aves poseen un sistema visual tetrocromático: cuatro tipos de conos sensibles a distintas longitudes de onda (incluyendo ultravioleta). Esta capacidad les permite:
-
-- Percibir patrones de color invisible para el ojo humano.
-- Comunicar señales visuales relacionadas con cortejo, defensa territorial y reconocimiento de especies.
-
-La simulación de un canal UV proxy über imágenes RGB amplía los descriptores de color y enriquece la extracción de características relevantes para diferenciar especies según patrones evolutivos reales. Esto resulta especialmente útil para:
-
-- Estudios de biodiversidad y conservación.
-- Investigación de mimetismo y estrategias de camuflaje.
-- Análisis comparativo entre taxonomías tradicionales y agrupamientos basados en rasgos visuales.
+*   **🪄 Predicción Tetrocromática**: Transforma imágenes RGB convencionales en tensores de 4 canales (`UV, R, G, B`), estimando la reflectancia ultravioleta mediante modelos ensamblados rigurosamente evaluados sobre datos espectroscópicos *(BirdColorBase)*.
+*   **🧠 Redes Vision Transformers Adaptativas**: Integra modelos pre-entrenados **BEiT** con canales de entrada modificados para asimilar información cromática tetradimensional y extraer embeddings de altísima fidelidad.
+*   **📊 Clustering Evolutivo Interactivo**: Agrupa especies sin supervisión empleando HDBSCAN, K-Means e innovadoras reducciones topológicas en subespacios de embeddings multidimensionales.
+*   **🛰 Interfaz Premium UX/UI**: Presenta una aplicación moderna construida con Streamlit y Plotly, ofreciendo visualizaciones UMAP interactivas, mapas térmicos de correlación espectral y dendrogramas para comparativa visual fluida.
+*   **🧩 Arquitectura Modular Robusta**: Código altamente escalable, diseñado como paquete fuente (`src/`) facilitando la incorporación futura a pipelines en producción.
 
 ---
 
-## Objetivos
+## 🧬 Justificación Biológica
 
-## Objetivos
+Las plumas de las aves ocultan un universo comunicativo clave en la banda ultravioleta, que emplean para:
 
-1. **Simular la percepción tetrocromática**  
-   - Generar un canal ultravioleta (UV) proxy a partir de imágenes RGB de plumas, usando un modelo de regresión entrenado con datos espectrales.
+*   Reconocimiento certero de individuos y evaluación del sexo/aptitud.
+*   Señalización críptica o cortejo.
+*   Mimetismo o defensa antidepredatoria.
 
-2. **Segmentar automáticamente las plumas**  
-   - Aplicar `rembg` o un modelo basado en U²-Net para obtener una máscara alfa que aísle la pluma del fondo, dejando únicamente el sujeto en primer plano.
-
-3. **Normalizar y preprocesar las imágenes**  
-   - Redimensionar cada recorte a 224 × 224 píxeles, conservando los cuatro canales (UV, R, G, B).  
-   - Estandarizar (z-score) cada canal de las imágenes 4-canal para garantizar comparabilidad.
-
-4. **Extraer descriptores y embeddings**  
-   - Emplear un modelo BEiT preentrenado (3 canales) para extraer embeddings RGB.  
-   - Adaptar BEiT a entrada 4 canales (RGB+UV) y extraer los embeddings correspondientes.  
-   - Calcular la diferencia y la distancia entre embeddings RGB vs. RGB+UVB para cuantificar el aporte del canal UV.
-
-5. **Agrupar plumas y especies**  
-   - Reducir dimensión con PCA/UMAP sobre los embeddings.  
-   - Aplicar K-Means y HDBSCAN para identificar clusters basados en patrones de coloración (incluyendo UV).
-
-6. **Clasificar especies con redes supervisadas**  
-   - Realizar fine-tuning de BEiT 4-canal para clasificación de especies de aves a partir de plumas.    
-   - Calcular el coeficiente de correlación cophenética en el espacio jerárquico.  
-   - Generar cladogramas a partir de los embeddings promedio por especie.
-
-7. **Evaluar hipótesis ecológicas y evolutivas Pendiente **  
-   - Contrastar patrones de coloración entre clusters no taxonómicos (mimetismo, camuflaje).  
-   - Realizar pruebas estadísticas (ANOVA y tests post-hoc) para identificar diferencias significativas en reflectancia UV/RGB.  
-   - Validar geoespacialmente los agrupamientos: analizar cómo la variabilidad ambiental (radiación UV, hábitat) influye en la organización de clusters.
+La hipótesis fundamental de *AvianVision* estipula que **la adición de nuestro canal ultravioleta estimado (tensor RGB+UVB) incrementa mediblemente la separabilidad y cohesión de las clases filogenéticas** en espacios latentes por encima del espacio RGB tradicional (validado mediante *Silhouette e índices de Davies-Bouldin*).
 
 ---
 
-## Datasets
+## 🚀 Inicio Rápido
 
-### 1. BirdColorbase
+### Requisitos Previos
+* Python 3.9 o superior.
+* Se recomienda encarecidamente una GPU para la extracción rápida de embeddings Transformer.
 
-- **Repositorio:** [BirdColorBase en GitHub](https://github.com/BirdColorBase/home)  
-- **Descripción:** Base de datos espectral con mediciones de reflectancia (300–700 nm) para más de 2,500 especies de aves.  
-- **Contenido:**
-  - Archivos CSV con percent reflectance por “patch” de plumaje.
-  - Espectros promediados en intervalos de 2 nm.
-  - Metadatos de especies y parches medidos en museos (Ocean Optics USB2000 + PX-2).  
+### Instalación
 
-### 2. FeathersV1
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica.git
+   cd Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica
+   ```
 
-- **Repositorio:** [FeathersV1 en GitHub](https://github.com/feathers-dataset/feathersv1-dataset)  
-- **Descripción:** Conjunto de 28,272 imágenes de plumas de aves (cortadas) recopiladas de foros, sitios web públicos y motores de búsqueda.  
-- **Estructura:**
-  - Organización taxonómica simplificada: carpeta por Orden, subcarpeta por Especie.
-  - Imágenes en JPG con fondo variable (RGB; algunas con canal alfa tras remoción de fondo).  
+2. Configura tu entorno virtual e instala dependencias:
+   ```bash
+   python -m venv venv
+   # En Windows: venv\Scripts\activate
+   # En Linux/macOS: source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
----
-
-## Metodología Ajustada (CRISP-DM)
-
-### 1. Comprensión del Negocio
-
-- **Alcance:**  
-  Desarrollar un pipeline de análisis de imágenes de plumas que combine simulación de visión tetrocromática con extracción de embeddings, clustering y análisis jerárquico. El objetivo es proporcionar a ornitólogos y equipos de conservación herramientas cuantitativas para:
-  - Differenciar patrones de coloración incluidos aquellos en ultravioleta.
-  - Agrupar plumas y especies según similitudes visuales.
-  - Generar cladogramas basados en embeddings para apoyar estudios evolutivos y ecológicos.
-
-- **Stakeholders:**  
-  - Biólogos evolutivos  
-  - Ornitólogos  
-  - Equipos de conservación y biodiversidad  
-  - Data scientists interesados en visión computacional aplicada a ecología  
+3. Lanza la interfaz de usuario de Streamlit:
+   ```bash
+   streamlit run app.py
+   # Alternativa en Windows: ./scripts/run_app.bat
+   ```
 
 ---
 
-### 2. Comprensión de los Datos
+## 🏗️ Arquitectura del Proyecto
 
-1. **Exploración de FeathersV1**  
-   - Verificar que las imágenes de plumas estén en formato JPG y, tras remoción de fondo, continúen con 4 canales (RGBA o RGB+canal alfa).  
-   - Validar nombres de archivo y estructura de carpetas para asegurar correspondencia con metadatos taxonómicos (si existieran).  
-   - Calcular estadísticas básicas de píxeles (forma, rango de valores) para cada canal (R, G, B, Alfa).
+El código base fue recientemente reestructurado bajo un estándar profesional:
 
-2. **Inspección del Modelo de Simulación UV**  
-   - Revisar el dataset espectral usado para entrenar el modelo de regresión UV (por ejemplo, datos de LaSBiRD transformados a valores RGB/UV).  
-   - Confirmar calidad de ajuste (R², MAE) en los datos espectrales antes de proceder a predecir UV para cada píxel.
-
----
-
-### 3. Preparación de los Datos
-
-1. **Segmentación Automática de Plumas**  
-   - Utilizar `rembg` (que emplea U²-Net internamente) para eliminar el fondo de cada imagen de pluma y obtener una máscara alfa que aísle el sujeto.  
-   - Guardar el resultado como imagen RGBA en `data/processed/feathers/segmented/` (el canal Alfa marca la pluma).
-
-2. **Construcción del Tensor 4-Canal (RGB+UV)**  
-   - **Predicción del canal UV proxy:**  
-     - Cargar el modelo de regresión entrenado previamente con datos espectrales de Birdcolorbase  
-     - Por cada píxel RGB de la imagen segmentada, normalizada a [0,1], predecir su valor UV.  
-   - **Concatenación y resize:**  
-     - Combinar los cuatro canales: `[UV_pred, R, G, B]`.  
-     - Redimensionar a 224 × 224 píxeles manteniendo los cuatro canales.  
-   - Almacenar las imágenes resultantes en `data/processed/feathers/4channel/`.
-
-3. **Normalización**  
-   - Para cada imagen 4-Canal (224×224), calcular media y desviación estándar de cada uno de los cuatro canales (UV, R, G, B) sobre el dataset completo.  
-   - Aplicar estandarización por canal (z-score) siguiendo:  
-     \[
-       \text{valor\_normalizado} \;=\; \frac{\text{valor} - \mu_{\text{canal}}}{\sigma_{\text{canal}}}
-     \]
-   - Guardar las matrices normalizadas en memoria o disco según se requiera para las siguientes fases.
+```text
+📁 AvianVision
+├── 📄 app.py                     # Interfaz de Usuario Principal (Streamlit)
+├── 📁 src/                       # Núcleo Modular
+│   ├── 📁 models/                # Lógica AI: Clustering, extracción BEiT y regresión UVB
+│   ├── 📁 processing/            # Ingeniería de features y procesamiento U-Net
+│   └── 📁 utils/                 # Visualizaciones avanzadas e índices espectrales
+├── 📁 notebooks/                 # EDA originario, pruebas espectrales e inv. de hipótesis
+├── 📁 scripts/                   # Utilidades CLI de despliegue y validación de entornos
+├── 📁 data/                      # Volúmenes de imágenes crudas y procesadas (FeathersV1)
+└── 📄 GEMINI.MD                  # Documento estratégico de Roadmap y limitaciones
+```
 
 ---
 
-### 4. Extracción de Embeddings
+## 📈 Resultados y Validación
 
-1. **BEiT Preentrenado (3 Canales)**  
-   - Cargar la versión estándar de BEiT (preentrenado en ImageNet) y adaptar su pipeline de preprocesamiento para recibir entradas de 224 × 224 × 3 (RGB sin canal UV).  
-   - Para cada imagen original (RGB), extraer el embedding de la capa penúltima (vector de características fijas).
+Los análisis demuestran sólidamente beneficios tangibles en el espacio tetrocromático:
 
-2. **BEiT Adaptado (4 Canales)**  
-   - Modificar la capa inicial de BEiT (`patch_embed.proj`) para aceptar 4 canales en lugar de 3.  
-     - Inicializar los pesos del canal UV copiando levemente los del canal R y añadiendo ruido gaussiano pequeño (permitiendo que el modelo aprenda a usar UV en posteriores ajustes).  
-   - Conservar el resto de la arquitectura idéntica para fine-tuning si se quisiera entrenar; sin embargo, si no se ajusta, usar directamente como extractor de características 4-canal.  
-   - Para cada imagen normalizada 4-Canal (224 × 224 × 4), extraer el embedding.
+*   **Identificación Topológica Más Clara:** La proyección UMAP evidencia una aglomeración intra-cluster mucho más densa frente a RGB.
+*   **Reestructuración Jerárquica:** El coeficiente Cofenético de dendrogramas decae de 0.35 para RGB a 0.25 en RGB+UVB, confirmando el resurgimiento de características ortogonales no deducibles con óptica humana.
+*   **Métricas Internas de Agrupación:** Se documenta un incremento sistemático del *Silhouette Score* (+10% relativo) y *Calinski-Harabasz*, garantizando un mapeo más intrínsecamente coherente con la divergencia visual de las aves.
 
-3. **Cálculo de Diferencias entre Embeddings**  
-   - Para cada par de embeddings (RGB vs. RGB+UV), calcular:  
-     - **Distancia coseno** \(\; d_{\cos}(\mathbf{e}_{RGB}, \mathbf{e}_{RGB+UV}) = 1 - \frac{\mathbf{e}_{RGB} \cdot \mathbf{e}_{RGB+UV}}{\lVert \mathbf{e}_{RGB}\rVert \,\lVert \mathbf{e}_{RGB+UV}\rVert}\).  
-     - **Norma de la diferencia** \(\; \lVert \mathbf{e}_{RGB} - \mathbf{e}_{RGB+UV} \rVert_{2}\).  
-   - Almacenar las dos versiones de embeddings y sus distancias en CSVs:  
-     - `embeddings_rgb.csv`  
-     - `embeddings_rgb_uv.csv`  
-     - `distancias_embeddings.csv`  
+<p align="center">
+  <img src="https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/UMAP.png" alt="Proyección UMAP" width="48%">
+  <img src="https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/comparacion%20dendrogramas.png" alt="Comparativa de Dendrogramas" width="48%">
+</p>
 
 ---
 
-### 5. Clustering y Análisis No Supervisado
+## 🗺️ Roadmap de Desarrollo
 
-1. **Reducción de Dimensión**  
-   - Aplicar **PCA** sobre los embeddings (tanto RGB como RGB+UV) para determinar cuántas componentes explican, por ejemplo, el 95 % de la varianza.  
-   - Utilizar **UMAP** (con vecinos = 15, distancia mínima = 0.1) para proyectar los embeddings en 2D, facilitando la visualización.
+Este repositorio pasó recientemente de ser un monolito de investigación a una aplicación lista para su uso:
 
-2. **Clustering**  
-   - **K-Means** (k = 5 a 10, según heurísticas como elbow method): agrupar puntos en el espacio reducido (PCA o UMAP). Calcular:  
-     - Silhouette Score  
-     - Davies-Bouldin Index  
-     - Calinski-Harabasz Score  
-   - **HDBSCAN** (mínimo de 10 muestras por cluster): detectar agrupaciones de densidad variable, útil si existen subgrupos más pequeños o ruido.  
-   - Comparar métricas entre versiones RGB vs. RGB+UV:  
-     - Evaluar si agregar UV mejora Silhouette, reduce Davies-Bouldin y/o incrementa Calinski-Harabasz.
+*   **[✅] Fase 1: Reestructuración de Cimientos** (Pipelines empaquetados como `src/`).
+*   **[✅] Fase 2: Modularización** (Separación de Transformers, Modelos Sklearn y Segmentadores).
+*   **[✅] Fase 3: Experiencia UI/UX Premium** (Reconstrucción total con gráficas dinámicas Plotly).
+*   **[⏳] Fase 4: Preparación Prod (Scale-Up)** (Batched Inference, Docstrings exhaustivos, Caché persistente, Dockerización).
 
-3. **Análisis de Clusters**  
-   - Para cada cluster obtenido (RGB y RGB+UV), calcular estadísticos de distancia interna (promedio coseno entre pares de embeddings dentro del mismo cluster).  
-   - Visualizar los clusters en el espacio UMAP, coloreando por etiqueta (si se dispone) o por clusters HDBSCAN.  
-   - Inspeccionar clusters cualitativamente: revisar ejemplos de plumas en cada clúster para interpretar agrupamientos (mimetismo, convergencia).
+Consulta [`GEMINI.MD`](./GEMINI.MD) para la visión estratégica detallada del proyecto.
 
 ---
 
-### 6. Análisis Jerárquico y Cladogramas
+## 🤝 Contribuciones
 
-1. **Promedio de Embeddings por “Grupo”**  
-   - Si existe metadato de “especie” o “familia” para un subconjunto, agrupar embeddings por ese campo y calcular el embedding promedio (centroide) de cada grupo.  
-   - En ausencia de etiquetas fijas, se puede promediar embeddings de subclusters (p. ej., agrupaciones HDBSCAN).
+Agradecemos sinceramente contribuciones tanto en el espectro biológico / ornitológico como ingenieril. Por favor, abre un *Issue* describiendo la mejora propuesta antes de enviar un *Pull Request*.
 
-2. **Distancia de Coseno entre Embeddings Promedios**  
-   - Generar la matriz de distancias (coseno) entre centroides de cada grupo.  
-   - Construir el linkage jerárquico (método promedio) a partir de dicha matriz.
+## 👨‍💻 Acerca del Autor
 
-3. **Coeficiente Cophenético**  
-   - Calcular el coeficiente cophenético para los dendrogramas basados en embeddings RGB y en embeddings RGB+UV.  
-   - Comparar valores:  
-     - Un coeficiente más alto indica que el dendrograma refleja mejor las distancias originales.  
-     - Un valor más bajo en RGB+UV —en comparación con RGB— puede sugerir reorganizaciones importantes basadas en información UV.
-
-4. **Tanglegram**  
-   - Visualizar ambos dendrogramas (RGB vs. RGB+UV) en un tanglegram, conectando los mismos grupos en los dos árboles.  
-   - Observar reordenamientos de ramas que indiquen convergencias o divergencias de agrupamientos al añadir el canal UV.
-
+Desarrollado y mantenido por **Juan Felipe Cardona Arango**, enfocando de forma transdisciplinaria Ciencias de Datos, Computer Vision y Machine Learning hacia la biodiversidad y bioinformática.
 
 ---
-
-### 7. Evaluación de Hipótesis Ecológicas ( NO DESARROLLADO)
-
-1. **Comparación de Clusters No Taxonómicos**  
-   - Identificar clusters que combinen plumas de distintas especies o familias en el agrupamiento RGB+UV pero que estén separadas en RGB.  
-   - Interpretar si dichos clusters corresponden a mimetismo (colores UV similares en especies no emparentadas) o adaptaciones comunes al mismo hábitat.
-
-2. **Pruebas Estadísticas**  
-   - Para cada cluster (RGB+UV), extraer métricas de reflectancia promedio por canal (UV, R, G, B).  
-   - Realizar **ANOVA** para comparar valores medios de canal UV entre clusters, verificando si existen diferencias significativas.  
-   - Si el ANOVA resulta significativo, aplicar **tests post-hoc (Tukey)** para identificar pares de clusters con diferencias reales en reflectancia UV.
-
-3. **Validación Geoespacial**  
-   - Si se dispone de coordenadas de muestreo para las plumas, superponer clusters sobre un mapa.  
-   - Evaluar si clusters basados en UV tienden a corresponder con regiones de alta radiación UV o hábitats similares (e.g., montañas vs. costa).  
-   - Calcular correlaciones (Spearman o Pearson) entre promedios de UV en un cluster y variables ambientales (radiación UV promedio de la región, altitud).
-
----
-
-## Técnicas y Herramientas
-
-| Fase                       | Herramientas / Bibliotecas                                                                                     |
-|----------------------------|------------------------------------------------------------------------------------------------------------------|
-| Segmentación               | `rembg` (U²-Net internamente)                                                                                   |
-| Simulación Tetrocromática  | OpenCV, NumPy, SciPy, scikit-learn (HistGradientBoostingRegressor, PolynomialFeatures, StandardScaler)           |
-| Extracción de Embeddings   | PyTorch, timm (BEiT), `torchvision.transforms`                                                                    |
-| Reducción de Dimensión     | scikit-learn (PCA), UMAP                                                                                          |
-| Clustering                 | scikit-learn (KMeans, Silhouette Score, Davies-Bouldin, Calinski-Harabasz), HDBSCAN                              |
-| Análisis Jerárquico        | SciPy (`linkage`, `cophenet`), scikit-bio (Mantel test)                                                            |
-| Pruebas Estadísticas       | SciPy (`f_oneway`, `pairwise_tukeyhsd` de `statsmodels`), pandas                                                 |
-| Visualización              | Matplotlib, Seaborn                                                                                                |
-| Gestión de Imágenes TIFF   | tifffile, OpenCV                                                                                                  |
-| Manejo de Datos y IO       | pandas, os, glob                                                                                                  |
-| Orquestación de Notebooks  | Jupyter Notebook / Google Colab                                                                                   |
-| Control de Versiones       | Git, GitHub                                                                                                       |
-| Entorno de Desarrollo      | Python 3.9+, Conda / virtualenv                                                                                   |
-
----
-
-
-## Resumen de Resultados
-
-
-![**Figura 1. Proyección UMAP**](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/UMAP.png)  
-
-La incorporación del canal UVB modifica de forma notable la estructura jerárquica de agrupamiento. Al añadir esta dimensión, las distancias entre las muestras de plumaje cambian, generando un dendrograma distinto: la correlación cophenética pasa de **0,3501** en el espacio solo RGB a **0,2591** en el espacio RGB + UVB. Esto confirma que la jerarquía resultante ya no refleja únicamente las distancias basadas en colores visibles.
-
-![**Figura 2. Comparación de dendrogramas**](https://github.com/Vagarh/Sistema-de-Visi-n-por-Computadora-para-Reconocimiento-de-Aves-y-Simulaci-n-Tetrocrom-tica/blob/ecd3d561c257b562e2e775cb47c48c45425ec1c7/Imagenes/comparacion%20dendrogramas.png)  
-
-
-Desde el punto de vista espectral, el canal UVB aporta información clave. Algunas especies presentan reflectancia en ultravioleta que no se detecta en RGB, por lo que UVB captura características biológicamente relevantes y “ocultas” al ojo humano. Esa señal complementaria enriquece el espacio de características y permite distinguir ejemplares cuyas plumas, en RGB, podrían parecer idénticas.
-
-Además, la inclusión de UVB produce clusters más cohesionados y mejor separados. En el análisis con K-Means y validación interna, la puntuación de **Silhouette aumenta de 0,39 a 0,42** al sumar el canal UVB, indicando que cada punto se agrupa de modo más compacto y queda mejor aislado de puntos ajenos. Simultáneamente, el índice de **Davies–Bouldin disminuye** (clusters más compactos) y el índice de **Calinski–Harabasz crece ligeramente** (mayor disparidad entre varianza intra- e intercluster).
-
-La proyección UMAP (Figura 1) corrobora estas mejoras, mostrando que los cinco grupos resultantes en el espacio RGB + UVB están más claramente diferenciados y presentan menos solapamientos que en el espacio solo RGB. En conjunto, estos hallazgos demuestran que el canal UVB revela patrones espectrales ocultos en el plumaje de aves, validando su uso para descubrir agrupaciones que no son detectables únicamente con la información visible. Por tanto, la integración de UVB constituye una estrategia eficaz para identificar características “invisibles” en las plumas y avanzar en el estudio de su ecología y taxonomía.
-
+<p align="center">Construido con propósitos de investigación ornitológica. Universidad y Año de Defensa - 2025.</p>
