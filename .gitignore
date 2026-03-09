@@ -32,19 +32,17 @@ venv.bak/
 # Jupyter Notebooks
 .ipynb_checkpoints
 
-# Archivos grandes de datos (opcional - puedes incluir algunos ejemplos pequeños)
-birds_image/feathers/processed_feathers_uvb/
-birds_image/feathers/uvb_feathers/
-birds_image/feathers/resized_feathers_uvb/
-birds_image/feathers/sam_crops_4ch/
-
-# Archivos de Excel grandes
-Birdcolorbase/*.xlsx
+# Archivos grandes de datos
+data/raw/
+data/processed/
+weights/*.joblib
+weights/*.h5
+weights/*.pt
 
 # Archivos temporales
 *.tmp
 *.temp
-demo_preview.png
+assets/demo_preview.png
 
 # Logs
 *.log
@@ -57,7 +55,5 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Mantener solo algunos archivos de ejemplo
-!birds_image/feathers/images/columbiformes/columba_livia/columbiformes_columba_livia_00000.jpg
-!birds_image/feathers/images/columbiformes/columba_livia/columbiformes_columba_livia_00001.jpg
-!birds_image/feathers/images/columbiformes/columba_livia/columbiformes_columba_livia_00002.jpg
+# Mantener solo algunos archivos de ejemplo si es necesario
+!data/raw/feathers_images/feathers/images/columbiformes/columba_livia/*.jpg

@@ -364,10 +364,10 @@ def get_example_images():
     
     # Buscar imágenes en diferentes directorios
     search_paths = [
-        "birds_image/feathers/images/*/*.jpg",
-        "birds_image/feathers/images/*/*/*.jpg",
-        "Imagenes/*.jpg",
-        "Imagenes/*.png"
+        "data/raw/feathers_images/*/*.jpg",
+        "data/raw/feathers_images/*/*/*.jpg",
+        "assets/images/*.jpg",
+        "assets/images/*.png"
     ]
     
     for pattern in search_paths:
@@ -384,9 +384,9 @@ def get_example_images():
                 })
     
     # Agregar imagen demo creada
-    if os.path.exists("demo_bird.jpg"):
+    if os.path.exists("assets/demo_bird.jpg"):
         example_images.insert(0, {
-            'path': "demo_bird.jpg",
+            'path': "assets/demo_bird.jpg",
             'name': "demo_bird",
             'display_name': "🎨 Ave Sintética (Demo)"
         })
@@ -414,7 +414,7 @@ def main():
     model_rgb, model_4ch = load_beit_model()
     
     if uv_model is None:
-        st.error("❌ No se pudo cargar el modelo UV. Verifica que el archivo 'Modelos/uv_regressor_hgb_2.joblib' exista.")
+        st.error("❌ No se pudo cargar el modelo UV. Verifica que el archivo 'weights/uv_regressor_hgb_2.joblib' exista.")
         st.info("💡 La aplicación puede funcionar sin el modelo UV usando datos simulados.")
         
         # Crear modelo simulado para demostración

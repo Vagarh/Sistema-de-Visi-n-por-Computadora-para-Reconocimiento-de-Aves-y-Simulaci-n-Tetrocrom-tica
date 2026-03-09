@@ -7,8 +7,8 @@ import streamlit as st
 def load_uv_model():
     """Cargar el modelo de predicción UV"""
     try:
-        model = joblib.load('Modelos/uv_regressor_hgb_2.joblib')
-        with open('Modelos/uv_regressor_hgb_meta_2.json', 'r') as f:
+        model = joblib.load('weights/uv_regressor_hgb_2.joblib')
+        with open('weights/uv_regressor_hgb_meta_2.json', 'r') as f:
             metadata = json.load(f)
         return model, metadata
     except Exception as e:
